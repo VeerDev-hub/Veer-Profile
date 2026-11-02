@@ -10,6 +10,8 @@ import { buildIndex, contentToMarkdown } from "@/lib/rag/build";
 import { clearChatGaps, CONTENT_TAG, getKnowledge, readKey, writeKey } from "@/lib/store";
 
 const MAX_PHOTO_CHARS = 1_400_000;
+const MAX_RESUME_BYTES = 2_000_000;
+const RESUME_PATH = "/resume";
 
 const text = (value, max = 500) => String(value ?? "").trim().slice(0, max);
 const list = (value, max = 40) => (Array.isArray(value) ? value.slice(0, max) : []);
@@ -73,6 +75,12 @@ function cleanContent(c) {
       period: text(e.period, 40),
       points: text(e.points, 1500),
     })).filter((e) => e.role),
+    certifications: list(c.certifications, 20).map((item) => ({
+      name: text(item.name, 100),
+      issuer: text(item.issuer, 60),
+      logo: item.logo in ICONS ? item.logo : "award",
+      href: safeUrl(item.href),
+    })).filter((item) => item.name),
     achievements: list(c.achievements, 20).map((a) => text(a, 160)).filter(Boolean),
     disciplines: list(c.disciplines, 10).map((d) => ({
       name: text(d.name, 60),
@@ -141,6 +149,22 @@ export async function saveContent(content) {
       console.error(err);
       return { ok: "Saved. The site is updated, but the chatbot couldn't be rebuilt. Try again in a moment." };
     }
+  });
+}
+
+export async function uploadResume(formData) {
+  return guarded(async () => {
+    const file = formData.get("resume");
+    if (!(file instanceof File) || file.size === 0) return { error: "Choose a PDF first." };
+    if (file.size > MAX_RESUME_BYTES) return { error: "Resume must be under 2 MB." };
+    const bytes = Buffer.from(await file.arrayBuffer());
+    if (bytes.subarray(0, 5).toString("latin1") !== "%PDF-") return { error: "That file isn't a PDF." };
+
+    const content = cleanContent({ ...defaultContent, ...(await readKey("content")), resumeUrl: RESUME_PATH });
+    await writeKey("resumeFile", { data: bytes.toString("base64"), name: "Veer-Pratap-Singh-Resume.pdf" });
+    await writeKey("content", content);
+    updateTag(CONTENT_TAG);
+    return { ok: "Resume updated.", resumeUrl: RESUME_PATH };
   });
 }
 

@@ -32,7 +32,7 @@ VITAP Connect is a social and collaboration platform for VIT-AP students, built 
 PortSpectre (repository Port-Scanner) is a Python port scanner CLI with CONNECT, SYN, UDP and STEALTH modes, timing profiles, service detection, CIDR scanning, scan diffing, a plugin system, rate limiting, and JSON, CSV and Markdown reports. It is meant for quick assessments, with a legal acknowledgment required for public targets. Code: https://github.com/VeerDev-hub/Port-Scanner
 
 ## Certifications and languages
-Certifications: AWS Cloud Architecture, AWS Cloud Foundations, Full Stack Dev. Languages: Hindi (native), English (professional), German (beginner).
+Certifications: AWS Cloud Architecture, AWS Cloud Foundations, IBM Cybersecurity Analyst, Full Stack Developer (Udemy). Languages: Hindi (native), English (professional), German (beginner).
 
 ## Leadership and achievements
 First Runner-up at a national-level hackathon at Woxsen University. President of Team Next Nexus, organizing 50+ technical events. Core team member of VLaunchpad and VTOPIA. Conducted workshops on Firebase and Introduction to IoT for 100+ students. Key organizer for TEDxVITAP and active member of the University Social Media Committee.

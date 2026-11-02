@@ -3,7 +3,7 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { LuArrowDown, LuArrowUp, LuPlus, LuTrash2 } from "react-icons/lu";
-import { clearGaps, logout, saveContent, saveKnowledge } from "@/app/admin/actions";
+import { clearGaps, logout, saveContent, saveKnowledge, uploadResume } from "@/app/admin/actions";
 import { HEADLINE_COLORS } from "@/lib/content";
 import { ICONS } from "@/lib/icons";
 
@@ -92,6 +92,20 @@ export default function AdminPanel({ initialContent, initialKnowledge, initialGa
       }
     });
 
+  function pickResume(e) {
+    const input = e.target;
+    const file = input.files[0];
+    if (!file) return;
+    const form = new FormData();
+    form.set("resume", file);
+    run(async () => {
+      const result = await uploadResume(form);
+      if (result.resumeUrl) set("resumeUrl")(result.resumeUrl);
+      input.value = "";
+      return result;
+    });
+  }
+
   function pickPhoto(e) {
     const file = e.target.files[0];
     if (!file) return;
@@ -139,6 +153,12 @@ export default function AdminPanel({ initialContent, initialKnowledge, initialGa
           <Field label="Hero note, right" value={content.noteTwo} onChange={set("noteTwo")} />
         </div>
         <Field label="Email" value={content.email} onChange={set("email")} />
+        <label className="block space-y-1">
+          <span className="text-xs text-muted">
+            Upload a new resume (PDF under 2 MB). It replaces the live file straight away and anyone can download it, so remove anything you don&apos;t want public, like your phone number.
+          </span>
+          <input type="file" accept="application/pdf" disabled={pending} onChange={pickResume} className="block w-full min-w-0 text-sm" />
+        </label>
         <Field label="Resume link (leave empty to hide the button)" value={content.resumeUrl} onChange={set("resumeUrl")} />
         <label className="block space-y-1">
           <span className="text-xs text-muted">Photo (transparent PNG works best, under 1 MB)</span>
@@ -188,11 +208,9 @@ export default function AdminPanel({ initialContent, initialKnowledge, initialGa
             <div className="grid gap-3 sm:grid-cols-[1fr_2fr]">
               <Field label="Label" value={s.label} onChange={(label) => update({ ...s, label })} />
               <Field label="URL" value={s.href} placeholder="https://" onChange={(href) => update({ ...s, href })} />
-              {!s.href && (
-                <div className="sm:col-span-2">
-                  <Field label="Username to copy (when there's no URL)" value={s.handle || ""} onChange={(handle) => update({ ...s, handle })} />
-                </div>
-              )}
+              <div className="sm:col-span-2">
+                <Field label="Username (optional: shown and copied on click)" value={s.handle || ""} onChange={(handle) => update({ ...s, handle })} />
+              </div>
             </div>
           )}
         />
@@ -238,6 +256,28 @@ export default function AdminPanel({ initialContent, initialKnowledge, initialGa
               </div>
               <Field label="Points (one per line)" multiline value={e.points} onChange={(points) => update({ ...e, points })} />
             </>
+          )}
+        />
+      </Section>
+
+      <Section title="Certifications">
+        <ListEditor
+          items={content.certifications}
+          onChange={set("certifications")}
+          blank={{ name: "", issuer: "", logo: "award", href: "" }}
+          addLabel="Add certification"
+          render={(c, update) => (
+            <div className="grid gap-3 sm:grid-cols-2">
+              <Field label="Name" value={c.name} onChange={(name) => update({ ...c, name })} />
+              <Field label="Issuer" value={c.issuer || ""} onChange={(issuer) => update({ ...c, issuer })} />
+              <label className="block space-y-1">
+                <span className="text-xs text-muted">Logo</span>
+                <select value={c.logo || "award"} onChange={(e) => update({ ...c, logo: e.target.value })} className={inputClass}>
+                  {Object.keys(ICONS).map((key) => <option key={key}>{key}</option>)}
+                </select>
+              </label>
+              <Field label="Certificate link" value={c.href} placeholder="https://" onChange={(href) => update({ ...c, href })} />
+            </div>
           )}
         />
       </Section>
