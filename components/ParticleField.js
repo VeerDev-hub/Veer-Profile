@@ -102,6 +102,7 @@ export default function ParticleField() {
       }
 
       const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const skipIntro = document.documentElement.classList.contains("skip-intro");
       const pixelRatio = Math.min(devicePixelRatio, 1.75);
       renderer.setPixelRatio(pixelRatio);
       host.appendChild(renderer.domElement);
@@ -120,7 +121,7 @@ export default function ParticleField() {
 
       const uniforms = {
         uTime: { value: 0 },
-        uIntro: { value: reduced ? 1 : 0 },
+        uIntro: { value: reduced || skipIntro ? 1 : 0 },
         uScatter: { value: 0 },
         uPixelRatio: { value: pixelRatio },
         uPull: { value: 0 },
@@ -188,7 +189,7 @@ export default function ParticleField() {
         const time = clock.getElapsedTime();
         uniforms.uTime.value = time;
         if (!reduced) {
-          const t = Math.min(Math.max((time + startOffset - INTRO_START) / INTRO_LENGTH, 0), 1);
+          const t = skipIntro ? 1 : Math.min(Math.max((time + startOffset - INTRO_START) / INTRO_LENGTH, 0), 1);
           uniforms.uIntro.value = 1 - (1 - t) ** 3;
           spin += delta * (0.09 + (1 - t) * 1.1);
         }

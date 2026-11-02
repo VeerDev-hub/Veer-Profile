@@ -223,6 +223,17 @@ html.custom-cursor button {
   mix-blend-mode: normal;
 }
 
+html.skip-intro .preloader {
+  display: none;
+}
+
+html.skip-intro .hero-line,
+html.skip-intro .hero-photo,
+html.skip-intro .hero-pop,
+html.skip-intro .nav-enter {
+  animation: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .preloader {
     display: none;

@@ -27,8 +27,8 @@ export const metadata = {
   twitter: { card: "summary_large_image" },
 };
 
-// Runs before paint so a saved dark theme never flashes light.
-const THEME_SCRIPT = `try{var t=localStorage.getItem("theme");if(t==="dark"||(!t&&matchMedia("(prefers-color-scheme: dark)").matches))document.documentElement.classList.add("dark")}catch(e){}`;
+// Runs before paint so a saved theme never flashes and a seen intro never replays.
+const THEME_SCRIPT = `try{var r=document.documentElement,t=localStorage.getItem("theme");if(t==="dark"||(!t&&matchMedia("(prefers-color-scheme: dark)").matches))r.classList.add("dark");if(sessionStorage.getItem("intro-seen"))r.classList.add("skip-intro")}catch(e){}`;
 
 export default function RootLayout({ children }) {
   return (
