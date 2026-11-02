@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 const GREETINGS = [
   { text: "नमस्ते", lang: "hi" },
@@ -13,12 +13,37 @@ const GREETINGS = [
 ];
 // Keep in step with the preloader-exit delay in globals.css (STEP_MS × greetings).
 const STEP_MS = 450;
+const SEEN_KEY = "intro-seen";
+
+function introSeen() {
+  try {
+    return Boolean(sessionStorage.getItem(SEEN_KEY));
+  } catch {
+    return false;
+  }
+}
+
+function rememberIntro() {
+  try {
+    sessionStorage.setItem(SEEN_KEY, "1");
+  } catch {
+    // Storage blocked: the intro just plays again.
+  }
+}
 
 export default function Preloader() {
   const root = useRef(null);
   const [step, setStep] = useState(0);
 
+  // Coming back to the home page inside the app doesn't rerun the head script.
+  useLayoutEffect(() => {
+    if (introSeen()) document.documentElement.classList.add("skip-intro");
+  }, []);
+
   useEffect(() => {
+    if (document.documentElement.classList.contains("skip-intro")) return;
+    root.current?.getAnimations()[0]?.finished.then(rememberIntro, () => {});
+
     let frame;
     // Follows the CSS clock, so words stay matched to the bar even if hydration runs late.
     const tick = () => {
