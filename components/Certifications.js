@@ -5,7 +5,9 @@ import { ICONS } from "@/lib/icons";
 function Card({ cert }) {
   const { Icon, color } = ICONS[cert.logo] || ICONS.award;
   const Tag = cert.href ? "a" : "div";
-  const link = cert.href ? { href: cert.href, target: "_blank", rel: "noreferrer" } : {};
+  const link = cert.href
+    ? { href: cert.href, target: "_blank", rel: "noreferrer", "data-track": `Certificate: ${cert.name}` }
+    : {};
   return (
     <Tag
       {...link}

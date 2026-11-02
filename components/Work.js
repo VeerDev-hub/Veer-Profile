@@ -9,7 +9,7 @@ export default function Work({ projects }) {
       <div className="border-t border-line">
         {projects.map((p) => (
           <Reveal key={p.name}>
-            <Link href={`/projects/${projectSlug(p)}`} className="group grid gap-2 border-b border-line py-7 lg:grid-cols-[1.2fr_1fr_8rem] lg:items-baseline lg:gap-8">
+            <Link href={`/projects/${projectSlug(p)}`} data-track={`Project: ${p.name}`} className="group grid gap-2 border-b border-line py-7 lg:grid-cols-[1.2fr_1fr_8rem] lg:items-baseline lg:gap-8">
               <h3 className="text-4xl font-medium tracking-tight transition duration-500 ease-out group-hover:translate-x-3 group-hover:text-accent sm:text-5xl">
                 {p.name}
               </h3>

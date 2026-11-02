@@ -1,6 +1,8 @@
+import { Suspense } from "react";
 import { Bricolage_Grotesque, Geist_Mono, Noto_Sans_Devanagari } from "next/font/google";
 import "lenis/dist/lenis.css";
 import { Analytics } from "@vercel/analytics/next";
+import Tracker from "@/components/Tracker";
 import { SITE_URL } from "@/lib/site";
 import "./globals.css";
 
@@ -48,6 +50,9 @@ export default function RootLayout({ children }) {
           Skip to content
         </a>
         {children}
+        <Suspense fallback={null}>
+          <Tracker />
+        </Suspense>
         <Analytics />
       </body>
     </html>

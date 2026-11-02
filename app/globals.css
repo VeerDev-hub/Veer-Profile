@@ -12,6 +12,7 @@
   --accent-inverse: #ff7a3d;
   --amber: #a16207;
   --teal: #0f766e;
+  --chart: #c2410c;
   color-scheme: light;
 }
 
@@ -25,6 +26,7 @@ html.dark {
   --accent-inverse: #c2410c;
   --amber: #ffc46b;
   --teal: #2dd4bf;
+  --chart: #ec6426;
   color-scheme: dark;
 }
 
@@ -38,6 +40,7 @@ html.dark {
   --color-accent-inverse: var(--accent-inverse);
   --color-amber: var(--amber);
   --color-teal: var(--teal);
+  --color-chart: var(--chart);
   --font-sans: var(--font-display);
   --font-mono: var(--font-geist-mono);
 }

@@ -11,6 +11,7 @@ Personal portfolio with an AI assistant that answers questions about my work, bu
 - Password-protected admin panel for editing all site content without touching code
 - Contact form that delivers email through Resend
 - Login lockout and rate limits stored in Postgres
+- Built-in analytics in the admin panel for views, visitors and clicks
 
 ## Tech stack
 
@@ -37,6 +38,13 @@ Open http://localhost:3000. The admin panel is at `/admin`.
 | `RESEND_API_KEY` | Sends contact form emails |
 | `CONTACT_TO` | Optional address for contact messages |
 | `NEXT_PUBLIC_SITE_URL` | Public site URL for SEO links |
+| `ANALYTICS_TIMEZONE` | Optional timezone for daily analytics totals. Defaults to `Asia/Kolkata` |
+
+## Analytics
+
+The admin panel shows page views, visitors, clicks, sources, countries and devices, stored in the site's own database for one year. No cookies are set on visitors. Only production deployments record events, and your own browser is skipped once you've logged in to `/admin`.
+
+To see which link people used, add `?ref=` to the URL you share, such as `/?ref=linkedin`. To track another element, give it a `data-track="Label"` attribute.
 
 ## Deploy
 

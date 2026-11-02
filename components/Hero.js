@@ -32,6 +32,7 @@ export default function Hero({ content }) {
         <p className="font-mono text-sm text-muted">{"// "}{content.noteOne}</p>
         <a
           href="#contact"
+          data-track="Let's Connect"
           className="flex items-center gap-2.5 rounded-full border border-line bg-surface/70 px-5 py-2.5 font-medium backdrop-blur-sm transition-colors hover:border-accent hover:text-accent"
         >
           <span className="relative flex size-2.5">
@@ -45,6 +46,7 @@ export default function Hero({ content }) {
             href={content.resumeUrl}
             target="_blank"
             rel="noreferrer"
+            data-track="Resume"
             className="rounded-full border border-line bg-surface/70 px-5 py-2.5 font-medium backdrop-blur-sm transition-colors hover:border-accent hover:text-accent"
           >
             Resume

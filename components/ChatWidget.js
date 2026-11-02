@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion } from "motion/react";
 import { LuSend, LuX } from "react-icons/lu";
+import { track } from "@/lib/track";
 
 function Typing() {
   return (
@@ -51,6 +52,7 @@ export default function ChatWidget({ suggestions, photo, name }) {
     update("");
     setInput("");
     setBusy(true);
+    track("Chat message");
 
     try {
       const res = await fetch("/api/chat", {
@@ -161,7 +163,10 @@ export default function ChatWidget({ suggestions, photo, name }) {
       <div className="relative">
         {!open && <span aria-hidden className="chat-ping absolute inset-0 rounded-full bg-accent/40" />}
         <motion.button
-          onClick={() => setOpen(!open)}
+          onClick={() => {
+            if (!open) track("Chat opened");
+            setOpen(!open);
+          }}
           aria-expanded={open}
           aria-label={open ? "Close chat" : `Ask about ${name}`}
           whileHover={{ scale: 1.08 }}

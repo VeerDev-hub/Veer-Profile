@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { LuArrowDown, LuArrowUp, LuPlus, LuTrash2 } from "react-icons/lu";
 import { clearGaps, logout, saveContent, saveKnowledge, uploadResume } from "@/app/admin/actions";
+import Analytics from "@/components/admin/Analytics";
 import { HEADLINE_COLORS } from "@/lib/content";
 import { ICONS } from "@/lib/icons";
 
@@ -73,7 +74,7 @@ function ListEditor({ items, onChange, blank, addLabel, render }) {
   );
 }
 
-export default function AdminPanel({ initialContent, initialKnowledge, initialGaps }) {
+export default function AdminPanel({ initialContent, initialKnowledge, initialGaps, initialAnalytics }) {
   const router = useRouter();
   const [content, setContent] = useState(initialContent);
   const [knowledge, setKnowledge] = useState(initialKnowledge);
@@ -142,6 +143,13 @@ export default function AdminPanel({ initialContent, initialKnowledge, initialGa
           </p>
         )}
       </header>
+
+      <Section
+        title="Analytics"
+        hint="Your own visits aren't counted on browsers where you've logged in here. Someone who returns on a later day counts as a new visitor."
+      >
+        <Analytics initial={initialAnalytics} />
+      </Section>
 
       <Section title="Profile">
         <div className="grid gap-3 sm:grid-cols-2">

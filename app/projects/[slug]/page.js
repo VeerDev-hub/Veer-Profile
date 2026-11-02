@@ -47,6 +47,7 @@ async function Project({ params }) {
           href={project.href}
           target="_blank"
           rel="noreferrer"
+          data-track={`Project site: ${project.name}`}
           className="mt-6 inline-flex items-center gap-2 rounded-full bg-accent px-5 py-2.5 font-medium text-white transition-transform hover:scale-105"
         >
           View project <LuArrowUpRight aria-hidden />
