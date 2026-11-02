@@ -1,26 +1,240 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f3f0e8;
+  --foreground: #16150f;
+  --muted: #6f6b5e;
+  --line: #d6d1c3;
+  --surface: #fbf9f4;
+  --accent: #c2410c;
+  --accent-inverse: #ff7a3d;
+  --amber: #a16207;
+  --teal: #0f766e;
+  color-scheme: light;
+}
+
+html.dark {
+  --background: #12110d;
+  --foreground: #f3f0e8;
+  --muted: #a29d8e;
+  --line: #2e2c24;
+  --surface: #1c1b15;
+  --accent: #ff7a3d;
+  --accent-inverse: #c2410c;
+  --amber: #ffc46b;
+  --teal: #2dd4bf;
+  color-scheme: dark;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-surface: var(--surface);
+  --color-accent: var(--accent);
+  --color-accent-inverse: var(--accent-inverse);
+  --color-amber: var(--amber);
+  --color-teal: var(--teal);
+  --font-sans: var(--font-display);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-display), var(--font-hindi), sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--background);
+}
+
+html.custom-cursor,
+html.custom-cursor a,
+html.custom-cursor button {
+  cursor: none;
+}
+
+/* Preloader. The exit is CSS so the page opens even if JavaScript fails. */
+.preloader {
+  background: radial-gradient(circle at 50% 45%, #2a1608 0%, #12110d 62%);
+  animation: preloader-exit 0.9s cubic-bezier(0.76, 0, 0.24, 1) 3.15s forwards;
+}
+
+.preloader-word {
+  background: linear-gradient(100deg, #ff7a3d, #ffc46b, #ff5e8a, #ff7a3d);
+  background-size: 300% 100%;
+  background-clip: text;
+  color: transparent;
+  animation:
+    preloader-word 0.26s cubic-bezier(0.22, 1, 0.36, 1) both,
+    preloader-shine 2.4s linear infinite;
+}
+
+.preloader-bar {
+  background: linear-gradient(90deg, #ff7a3d, #ffc46b, #ff5e8a);
+  transform-origin: left;
+  animation: preloader-bar linear both;
+}
+
+@keyframes preloader-exit {
+  from {
+    clip-path: circle(150% at 50% 50%);
+  }
+  to {
+    clip-path: circle(0% at 50% 50%);
+    visibility: hidden;
+  }
+}
+
+@keyframes preloader-word {
+  from {
+    opacity: 0;
+    filter: blur(6px);
+    transform: translateY(10px) scale(0.97);
+  }
+}
+
+@keyframes preloader-shine {
+  to {
+    background-position: -300% 0;
+  }
+}
+
+@keyframes preloader-bar {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+/* Hero */
+.hero-line {
+  animation: hero-line 1s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.hero-photo {
+  animation: hero-photo 1s cubic-bezier(0.22, 1, 0.36, 1) 3.75s both;
+}
+
+@keyframes hero-line {
+  from {
+    transform: translateY(110%);
+  }
+}
+
+@keyframes hero-photo {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+}
+
+.nav-enter {
+  animation: nav-enter 0.8s cubic-bezier(0.22, 1, 0.36, 1) 3.65s both;
+}
+
+@keyframes nav-enter {
+  from {
+    opacity: 0;
+    transform: translateY(-16px);
+  }
+}
+
+.hero-pop {
+  animation: hero-photo 0.8s cubic-bezier(0.22, 1, 0.36, 1) 3.95s both;
+}
+
+.tag-float {
+  animation: tag-float 5s ease-in-out infinite;
+}
+
+@keyframes tag-float {
+  50% {
+    transform: translate(6px, -10px);
+  }
+}
+
+/* Skills */
+.skill-float {
+  animation: skill-float 4s ease-in-out infinite;
+}
+
+@keyframes skill-float {
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+/* Chat */
+.chat-wave {
+  transform-origin: 70% 70%;
+  animation: chat-wave 3.2s ease-in-out infinite;
+}
+
+@keyframes chat-wave {
+  0%, 60%, 100% {
+    transform: rotate(0);
+  }
+  65%, 75%, 85% {
+    transform: rotate(16deg);
+  }
+  70%, 80% {
+    transform: rotate(-10deg);
+  }
+}
+
+.chat-ping {
+  animation: chat-ping 2.4s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@keyframes chat-ping {
+  to {
+    opacity: 0;
+    transform: scale(1.5);
+  }
+}
+
+.chat-dot {
+  animation: chat-dot 1s ease-in-out infinite;
+}
+
+@keyframes chat-dot {
+  50% {
+    opacity: 1;
+    transform: translateY(-3px);
+  }
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .preloader {
+    display: none;
+  }
+
+  .hero-line,
+  .hero-photo,
+  .hero-pop,
+  .tag-float,
+  .nav-enter,
+  .skill-float,
+  .chat-wave,
+  .chat-ping,
+  .chat-dot {
+    animation: none;
+  }
 }
