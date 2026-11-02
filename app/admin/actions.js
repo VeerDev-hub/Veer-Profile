@@ -3,11 +3,12 @@
 import { headers } from "next/headers";
 import { updateTag } from "next/cache";
 import { endSession, isAdmin, passwordMatches, startSession } from "@/lib/auth";
+import { RANGES } from "@/lib/analytics";
 import { defaultContent, HEADLINE_COLORS } from "@/lib/content";
 import { ICONS } from "@/lib/icons";
 import { tryLogin } from "@/lib/loginLock";
 import { buildIndex, contentToMarkdown } from "@/lib/rag/build";
-import { clearChatGaps, CONTENT_TAG, getKnowledge, readKey, writeKey } from "@/lib/store";
+import { clearChatGaps, CONTENT_TAG, getAnalytics, getKnowledge, readKey, writeKey } from "@/lib/store";
 
 const MAX_PHOTO_CHARS = 1_400_000;
 const MAX_RESUME_BYTES = 2_000_000;
@@ -172,6 +173,13 @@ export async function clearGaps() {
   return guarded(async () => {
     await clearChatGaps();
     return { ok: "Cleared." };
+  });
+}
+
+export async function loadAnalytics(days) {
+  return guarded(async () => {
+    if (!RANGES.some((range) => range.days === days)) return { error: "Unknown date range." };
+    return { analytics: await getAnalytics(days) };
   });
 }
 

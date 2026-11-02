@@ -22,6 +22,7 @@ export default function Footer({ content }) {
           <p className="max-w-sm text-2xl font-medium leading-snug tracking-tight">{content.noteOne}.</p>
           <a
             href={`mailto:${content.email}`}
+            data-track="Email link"
             className="mt-4 inline-block text-muted transition-colors hover:text-accent"
           >
             {content.email}
@@ -46,6 +47,7 @@ export default function Footer({ content }) {
                     href={content.resumeUrl}
                     target="_blank"
                     rel="noreferrer"
+                    data-track="Resume"
                     className="group inline-flex items-center py-1 transition-colors hover:text-accent"
                   >
                     <span className="h-px w-0 bg-accent transition-all duration-300 group-hover:mr-2 group-hover:w-4" />

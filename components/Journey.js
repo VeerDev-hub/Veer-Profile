@@ -11,6 +11,7 @@ export default function Journey({ experience, achievements, resumeUrl }) {
             href={resumeUrl}
             target="_blank"
             rel="noreferrer"
+            data-track="Resume"
             className="flex items-center gap-2 rounded-full border border-line px-4 py-2 text-sm transition-colors hover:border-accent hover:text-accent"
           >
             <LuDownload aria-hidden /> Download resume

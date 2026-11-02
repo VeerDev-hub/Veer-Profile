@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { track } from "@/lib/track";
 
 const fieldClass =
   "w-full rounded-2xl border border-line bg-surface px-4 py-3 outline-none transition-colors focus:border-accent";
@@ -25,6 +26,7 @@ export default function ContactForm({ email }) {
       }
       form.reset();
       setStatus("sent");
+      track("Contact form sent");
     } catch (err) {
       setError(err.message);
       setStatus("error");

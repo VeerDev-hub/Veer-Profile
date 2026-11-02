@@ -42,7 +42,7 @@ function CopyHandle({ social }) {
   }
 
   return (
-    <Tag {...link} onClick={copy} aria-label={`${label}: copy username ${handle}`} className={rowClass}>
+    <Tag {...link} onClick={copy} data-track={`Social: ${label}`} aria-label={`${label}: copy username ${handle}`} className={rowClass}>
       <Badge label={label} />
       <span className="min-w-0">
         <span className="block" role="status">{copied ? "Copied!" : label}</span>
@@ -61,7 +61,7 @@ export default function SocialLinks({ socials }) {
           {s.handle ? (
             <CopyHandle social={s} />
           ) : (
-            <a href={s.href} target="_blank" rel="noreferrer" className={rowClass}>
+            <a href={s.href} target="_blank" rel="noreferrer" data-track={`Social: ${s.label}`} className={rowClass}>
               <Badge label={s.label} />
               {s.label}
               <LuExternalLink aria-hidden className={hintClass} />
