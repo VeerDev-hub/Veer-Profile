@@ -154,14 +154,16 @@ html.custom-cursor button {
   animation: hero-photo 0.8s cubic-bezier(0.22, 1, 0.36, 1) 3.95s both;
 }
 
-.tag-float {
-  animation: tag-float 5s ease-in-out infinite;
+.type-caret {
+  box-shadow: 0.05em 0 0 0 currentColor;
 }
 
-@keyframes tag-float {
-  50% {
-    transform: translate(6px, -10px);
-  }
+.footer-name {
+  background: linear-gradient(90deg, var(--accent), var(--amber), var(--teal), var(--accent));
+  background-size: 300% 100%;
+  background-clip: text;
+  color: transparent;
+  animation: preloader-shine 14s linear infinite;
 }
 
 /* Skills */
@@ -229,9 +231,9 @@ html.custom-cursor button {
   .hero-line,
   .hero-photo,
   .hero-pop,
-  .tag-float,
   .nav-enter,
   .skill-float,
+  .footer-name,
   .chat-wave,
   .chat-ping,
   .chat-dot {

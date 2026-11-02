@@ -49,7 +49,11 @@ function cleanContent(c) {
     floatingTags: list(c.floatingTags, 3).map((t) => text(t, 24)).filter(Boolean),
     photo: cleanPhoto(c.photo),
     email,
-    socials: list(c.socials, 10).map((s) => ({ label: text(s.label, 40), href: safeUrl(s.href) })).filter((s) => s.label && s.href),
+    socials: list(c.socials, 10).map((s) => ({
+      label: text(s.label, 40),
+      href: safeUrl(s.href),
+      handle: text(s.handle, 80),
+    })).filter((s) => s.label && (s.href || s.handle)),
     resumeUrl: safePath(c.resumeUrl),
     projects: list(c.projects).map((p) => ({
       name: text(p.name, 80),

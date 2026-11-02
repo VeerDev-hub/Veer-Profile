@@ -174,7 +174,7 @@ export default function AdminPanel({ initialContent, initialKnowledge, initialGa
           onChange={set("floatingTags")}
           blank=""
           addLabel="Add floating tag"
-          render={(tag, update) => <Field label="Floating tag (first three show)" value={tag} onChange={update} />}
+          render={(tag, update) => <Field label="Cursor tag" value={tag} onChange={update} />}
         />
       </Section>
 
@@ -182,12 +182,17 @@ export default function AdminPanel({ initialContent, initialKnowledge, initialGa
         <ListEditor
           items={content.socials}
           onChange={set("socials")}
-          blank={{ label: "", href: "" }}
+          blank={{ label: "", href: "", handle: "" }}
           addLabel="Add link"
           render={(s, update) => (
             <div className="grid gap-3 sm:grid-cols-[1fr_2fr]">
               <Field label="Label" value={s.label} onChange={(label) => update({ ...s, label })} />
               <Field label="URL" value={s.href} placeholder="https://" onChange={(href) => update({ ...s, href })} />
+              {!s.href && (
+                <div className="sm:col-span-2">
+                  <Field label="Username to copy (when there's no URL)" value={s.handle || ""} onChange={(handle) => update({ ...s, handle })} />
+                </div>
+              )}
             </div>
           )}
         />

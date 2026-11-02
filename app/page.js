@@ -1,6 +1,7 @@
 import ChatWidget from "@/components/ChatWidget";
 import Contact from "@/components/Contact";
 import Cursor from "@/components/Cursor";
+import Footer from "@/components/Footer";
 import Hero from "@/components/Hero";
 import Journey from "@/components/Journey";
 import { SmoothScroll } from "@/components/Motion";
@@ -19,7 +20,7 @@ export default async function Home() {
     name: `${content.firstName} ${content.lastName}`,
     url: SITE_URL,
     jobTitle: "Full-stack Developer",
-    sameAs: content.socials.map((s) => s.href),
+    sameAs: content.socials.map((s) => s.href).filter(Boolean),
   };
   return (
     <SmoothScroll>
@@ -35,8 +36,9 @@ export default async function Home() {
         <Work projects={content.projects} />
         <Journey experience={content.experience} achievements={content.achievements} resumeUrl={content.resumeUrl} />
         <Skills disciplines={content.disciplines} facts={content.facts} />
+        <Contact email={content.email} />
       </main>
-      <Contact email={content.email} socials={content.socials} name={`${content.firstName} ${content.lastName}`} />
+      <Footer content={content} />
       <ChatWidget suggestions={content.suggestions} photo={content.photo} name={content.firstName.split(" ")[0]} />
     </SmoothScroll>
   );
