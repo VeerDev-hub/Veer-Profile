@@ -1,36 +1,43 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Veer Pratap Singh — Portfolio
 
-## Getting Started
+Personal portfolio with an AI assistant that answers questions about my work, built with Next.js and JavaScript.
 
-First, run the development server:
+## Features
+
+- Animated intro, cursor-typed headline and an interactive Three.js particle globe
+- Light and dark themes, custom cursor, responsive layout
+- Project pages, experience, achievements and a downloadable resume
+- RAG chatbot using Gemini embeddings, with source labels and a list of unanswered questions
+- Password-protected admin panel for editing all site content without touching code
+- Contact form that delivers email through Resend
+- Login lockout and rate limits stored in Postgres
+
+## Tech stack
+
+Next.js, React, Tailwind CSS, Motion, Lenis, Three.js, Google Gemini, PostgreSQL (Neon), Resend.
+
+## Run locally
 
 ```bash
+npm install
+cp .env.example .env.local   # then fill in the values
+npm run ingest               # build the starter chatbot index
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000. The admin panel is at `/admin`.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Environment variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Variable | Purpose |
+| --- | --- |
+| `GEMINI_API_KEY` | Chatbot answers and embeddings |
+| `ADMIN_PASSWORD` | Turns on `/admin` |
+| `DATABASE_URL` | Postgres connection. Without it, data is saved to `data/site.json` |
+| `RESEND_API_KEY` | Sends contact form emails |
+| `CONTACT_TO` | Optional address for contact messages |
+| `NEXT_PUBLIC_SITE_URL` | Public site URL for SEO links |
 
-## Learn More
+## Deploy
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Deploy to Vercel, set the variables above, and enable Web Analytics in the project settings. A hosted deployment needs `DATABASE_URL`, because Vercel can't write to the local file store.

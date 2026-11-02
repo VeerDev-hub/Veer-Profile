@@ -1,20 +1,12 @@
 import Image from "next/image";
-import FloatingTags from "@/components/FloatingTags";
+import HeroHeadline from "@/components/HeroHeadline";
 import ParticleField from "@/components/ParticleField";
-
-const COLORS = {
-  foreground: "text-foreground",
-  accent: "text-accent",
-  amber: "text-amber",
-  teal: "text-teal",
-};
 
 export default function Hero({ content }) {
   const greeting = content.firstName.split(" ")[0];
   return (
     <section className="relative flex min-h-svh flex-col items-center justify-center overflow-hidden px-4 pb-10 pt-24 text-center">
       <ParticleField />
-      <FloatingTags tags={content.floatingTags} />
 
       <div className="hero-photo relative mb-5 flex items-center gap-3">
         <span className="block size-14 overflow-hidden rounded-full bg-accent/20 ring-1 ring-line sm:size-16">
@@ -34,16 +26,7 @@ export default function Hero({ content }) {
         </span>
       </div>
 
-      <h1 className="relative text-[min(12.5vw,17svh)] font-bold uppercase leading-[0.98] tracking-tight">
-        {content.headline.map((line, i) => (
-          <span key={line.text} className="block overflow-hidden pb-[0.04em]">
-            <span className="hero-line block" style={{ animationDelay: `${3.55 + i * 0.12}s` }}>
-              {line.prefix && <span className="text-foreground">{line.prefix} </span>}
-              <span className={COLORS[line.color] || COLORS.foreground}>{line.text}</span>
-            </span>
-          </span>
-        ))}
-      </h1>
+      <HeroHeadline headline={content.headline} tags={content.floatingTags} />
 
       <div className="hero-pop relative mt-7 flex flex-wrap items-center justify-center gap-x-6 gap-y-3">
         <p className="font-mono text-sm text-muted">{"// "}{content.noteOne}</p>
