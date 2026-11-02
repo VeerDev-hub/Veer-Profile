@@ -15,6 +15,7 @@ const ICONS = {
 };
 
 const rowClass = "group flex w-full items-center gap-3 py-1.5 text-left transition-colors hover:text-accent";
+const hintClass = "shrink-0 text-xs text-muted opacity-0 transition-opacity group-hover:opacity-100";
 
 function Badge({ label }) {
   const Icon = ICONS[label.toLowerCase()] || LuLink;
@@ -25,22 +26,30 @@ function Badge({ label }) {
   );
 }
 
-function CopyHandle({ label, handle }) {
+// Copies the username, and opens the app too when there's a link.
+function CopyHandle({ social }) {
+  const { label, href, handle } = social;
   const [copied, setCopied] = useState(false);
+  const Tag = href ? "a" : "button";
+  const link = href ? { href, target: "_blank", rel: "noreferrer" } : {};
+  const Hint = copied ? LuCheck : LuCopy;
 
-  async function copy() {
-    await navigator.clipboard.writeText(handle);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 1800);
+  function copy() {
+    navigator.clipboard?.writeText(handle).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1800);
+    }, () => {});
   }
 
-  const Hint = copied ? LuCheck : LuCopy;
   return (
-    <button onClick={copy} aria-label={`Copy ${label} username ${handle}`} className={rowClass}>
+    <Tag {...link} onClick={copy} aria-label={`${label}: copy username ${handle}`} className={rowClass}>
       <Badge label={label} />
-      <span role="status">{copied ? "Copied!" : label}</span>
-      <Hint aria-hidden className="text-xs text-muted opacity-0 transition-opacity group-hover:opacity-100" />
-    </button>
+      <span className="min-w-0">
+        <span className="block" role="status">{copied ? "Copied!" : label}</span>
+        <span className="block truncate text-xs text-muted">{handle}</span>
+      </span>
+      <Hint aria-hidden className={hintClass} />
+    </Tag>
   );
 }
 
@@ -49,14 +58,14 @@ export default function SocialLinks({ socials }) {
     <ul className="space-y-1">
       {socials.map((s) => (
         <li key={s.label}>
-          {s.href ? (
+          {s.handle ? (
+            <CopyHandle social={s} />
+          ) : (
             <a href={s.href} target="_blank" rel="noreferrer" className={rowClass}>
               <Badge label={s.label} />
               {s.label}
-              <LuExternalLink aria-hidden className="text-xs text-muted opacity-0 transition-opacity group-hover:opacity-100" />
+              <LuExternalLink aria-hidden className={hintClass} />
             </a>
-          ) : (
-            <CopyHandle label={s.label} handle={s.handle} />
           )}
         </li>
       ))}

@@ -1,3 +1,4 @@
+import Certifications from "@/components/Certifications";
 import ChatWidget from "@/components/ChatWidget";
 import Contact from "@/components/Contact";
 import Cursor from "@/components/Cursor";
@@ -34,7 +35,12 @@ export default async function Home() {
       <main id="main">
         <Hero content={content} />
         <Work projects={content.projects} />
-        <Journey experience={content.experience} achievements={content.achievements} resumeUrl={content.resumeUrl} />
+        <Journey
+          experience={content.experience}
+          achievements={content.achievements}
+          resumeUrl={content.resumeUrl}
+        />
+        <Certifications certifications={content.certifications} />
         <Skills disciplines={content.disciplines} facts={content.facts} />
         <Contact email={content.email} />
       </main>
