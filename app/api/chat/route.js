@@ -8,7 +8,10 @@ const MAX_PER_WINDOW = 8;
 const MAX_CHARS = 2000;
 const MAX_TURNS = 7;
 const TIMEOUT_MS = 12_000;
-const MODELS = [process.env.GEMINI_MODEL || "gemini-flash-lite-latest", "gemini-2.5-flash"];
+// Tried in order; later models are fallbacks for when one is overloaded (503) or retired (404).
+const MODELS = [
+  ...new Set([process.env.GEMINI_MODEL, "gemini-3.1-flash-lite", "gemini-flash-lite-latest", "gemini-3.5-flash-lite"].filter(Boolean)),
+];
 const SYSTEM = `You answer visitors' questions about Veer Pratap Singh on Veer's portfolio.
 Use only the facts inside <context>. Refer to Veer by name or with they/them pronouns.
 If the context does not cover a question, say you don't know and suggest emailing Veer.
@@ -25,6 +28,7 @@ async function openStream(ai, { contents, config }) {
         config: { ...config, abortSignal: AbortSignal.timeout(TIMEOUT_MS) },
       });
     } catch (err) {
+      console.warn(`Chat model ${model} failed:`, err.status ?? err.name, err.message?.slice(0, 200));
       lastError = err;
     }
   }
