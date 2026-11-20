@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { LuCalendarClock } from "react-icons/lu";
 import HeroHeadline from "@/components/HeroHeadline";
 import ParticleField from "@/components/ParticleField";
 
@@ -41,6 +42,17 @@ export default function Hero({ content }) {
           </span>
           Let&apos;s Connect
         </a>
+        {content.bookingUrl && (
+          <a
+            href={content.bookingUrl}
+            target="_blank"
+            rel="noreferrer"
+            data-track="Book a call"
+            className="flex items-center gap-2 rounded-full bg-accent px-5 py-2.5 font-medium text-white transition-transform hover:scale-105"
+          >
+            <LuCalendarClock aria-hidden /> Book a call
+          </a>
+        )}
         {content.resumeUrl && (
           <a
             href={content.resumeUrl}

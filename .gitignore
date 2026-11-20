@@ -43,3 +43,4 @@ next-env.d.ts
 
 # admin panel data
 /data
+vercel.json

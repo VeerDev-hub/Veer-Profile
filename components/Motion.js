@@ -4,11 +4,26 @@ import { useEffect } from "react";
 import Lenis from "lenis";
 import { MotionConfig, motion } from "motion/react";
 
+let activeLenis = null;
+
+// Scrolls to a section through Lenis when it's running, so the motion matches anchor links.
+export function scrollToId(id) {
+  const target = document.getElementById(id);
+  if (!target) return;
+  if (activeLenis) activeLenis.scrollTo(target, { offset: -(parseFloat(getComputedStyle(target).scrollMarginTop) || 0) });
+  else target.scrollIntoView({ behavior: "smooth" });
+  history.replaceState(null, "", `#${id}`);
+}
+
 export function SmoothScroll({ children }) {
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const lenis = new Lenis({ autoRaf: true, anchors: true });
-    return () => lenis.destroy();
+    activeLenis = lenis;
+    return () => {
+      lenis.destroy();
+      activeLenis = null;
+    };
   }, []);
   return <MotionConfig reducedMotion="user">{children}</MotionConfig>;
 }

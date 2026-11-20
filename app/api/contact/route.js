@@ -1,5 +1,5 @@
 import { clientIp, isRateLimited } from "@/lib/rateLimit";
-import { getContent } from "@/lib/store";
+import { emailEnabled, ownerEmail, sendEmail } from "@/lib/email";
 
 const WINDOW_MS = 10 * 60 * 1000;
 const MAX_PER_WINDOW = 3;
@@ -17,36 +17,19 @@ export async function POST(request) {
     return Response.json({ error: "Please check your details." }, { status: 400 });
   }
 
-  if (!process.env.RESEND_API_KEY) {
+  if (!emailEnabled()) {
     return Response.json({ error: "The form isn't set up yet." }, { status: 503 });
   }
   if (await isRateLimited("contact", clientIp(request), WINDOW_MS, MAX_PER_WINDOW)) {
     return Response.json({ error: "Too many messages. Try again later." }, { status: 429 });
   }
 
-  const to = process.env.CONTACT_TO || (await getContent()).email;
-  const res = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      from: process.env.CONTACT_FROM || "Portfolio <onboarding@resend.dev>",
-      to,
-      reply_to: email,
-      subject: `Portfolio message from ${name}`,
-      text: `From: ${name} <${email}>\n\n${message}`,
-    }),
-    signal: AbortSignal.timeout(10_000),
-  }).catch((err) => {
-    console.error(err);
-    return null;
+  const sent = await sendEmail({
+    to: await ownerEmail(),
+    replyTo: email,
+    subject: `Portfolio message from ${name}`,
+    text: `From: ${name} <${email}>\n\n${message}`,
   });
-
-  if (!res?.ok) {
-    if (res) console.error("Resend error", res.status, await res.text());
-    return Response.json({ error: "Your message wasn't sent." }, { status: 502 });
-  }
+  if (!sent) return Response.json({ error: "Your message wasn't sent." }, { status: 502 });
   return Response.json({ ok: true });
 }

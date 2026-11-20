@@ -1,8 +1,10 @@
 import Certifications from "@/components/Certifications";
 import ChatWidget from "@/components/ChatWidget";
+import CommandPalette from "@/components/CommandPalette";
 import Contact from "@/components/Contact";
 import Cursor from "@/components/Cursor";
 import Footer from "@/components/Footer";
+import GitHubActivity from "@/components/GitHubActivity";
 import Hero from "@/components/Hero";
 import Journey from "@/components/Journey";
 import { SmoothScroll } from "@/components/Motion";
@@ -10,6 +12,7 @@ import Nav from "@/components/Nav";
 import Preloader from "@/components/Preloader";
 import Skills from "@/components/Skills";
 import Work from "@/components/Work";
+import { githubUsername } from "@/lib/github";
 import { SITE_URL } from "@/lib/site";
 import { getContent } from "@/lib/store";
 
@@ -42,9 +45,17 @@ export default async function Home() {
         />
         <Certifications certifications={content.certifications} />
         <Skills disciplines={content.disciplines} facts={content.facts} />
-        <Contact email={content.email} />
+        <GitHubActivity username={githubUsername(content.socials)} />
+        <Contact email={content.email} bookingUrl={content.bookingUrl} />
       </main>
       <Footer content={content} />
+      <CommandPalette
+        projects={content.projects}
+        email={content.email}
+        resumeUrl={content.resumeUrl}
+        bookingUrl={content.bookingUrl}
+        socials={content.socials}
+      />
       <ChatWidget suggestions={content.suggestions} photo={content.photo} name={content.firstName.split(" ")[0]} />
     </SmoothScroll>
   );

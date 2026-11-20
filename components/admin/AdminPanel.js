@@ -3,7 +3,7 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { LuArrowDown, LuArrowUp, LuPlus, LuTrash2 } from "react-icons/lu";
-import { clearGaps, logout, saveContent, saveKnowledge, uploadResume } from "@/app/admin/actions";
+import { clearGaps, logout, saveContent, saveKnowledge, sendReportNow, uploadResume } from "@/app/admin/actions";
 import Analytics from "@/components/admin/Analytics";
 import { HEADLINE_COLORS } from "@/lib/content";
 import { ICONS } from "@/lib/icons";
@@ -149,6 +149,16 @@ export default function AdminPanel({ initialContent, initialKnowledge, initialGa
         hint="Your own visits aren't counted on browsers where you've logged in here. Someone who returns on a later day counts as a new visitor."
       >
         <Analytics initial={initialAnalytics} />
+        <div className="flex flex-wrap items-center gap-3 border-t border-line pt-4">
+          <button
+            disabled={pending}
+            onClick={() => run(sendReportNow)}
+            className="rounded-lg border border-line px-3 py-1.5 text-sm text-muted hover:text-accent disabled:opacity-50"
+          >
+            Send weekly report now
+          </button>
+          <p className="text-xs text-muted">It also arrives by email every Monday at 9:00 IST once deployed on Vercel with CRON_SECRET set.</p>
+        </div>
       </Section>
 
       <Section title="Profile">
@@ -168,6 +178,12 @@ export default function AdminPanel({ initialContent, initialKnowledge, initialGa
           <input type="file" accept="application/pdf" disabled={pending} onChange={pickResume} className="block w-full min-w-0 text-sm" />
         </label>
         <Field label="Resume link (leave empty to hide the button)" value={content.resumeUrl} onChange={set("resumeUrl")} />
+        <Field
+          label="Booking link, like a Cal.com or Calendly page (leave empty to hide the Book a call button)"
+          value={content.bookingUrl || ""}
+          placeholder="https://cal.com/your-name/15min"
+          onChange={set("bookingUrl")}
+        />
         <label className="block space-y-1">
           <span className="text-xs text-muted">Photo (transparent PNG works best, under 1 MB)</span>
           <span className="flex items-center gap-3">
