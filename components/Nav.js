@@ -2,7 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "motion/react";
-import { LuMoon, LuSun } from "react-icons/lu";
+import { LuMoon, LuSearch, LuSun } from "react-icons/lu";
+import { openPalette } from "@/components/CommandPalette";
+import { toggleTheme } from "@/lib/theme";
 
 const LINKS = [
   ["Work", "work"],
@@ -10,26 +12,6 @@ const LINKS = [
   ["Skills", "skills"],
   ["Contact", "contact"],
 ];
-
-function toggleTheme(event) {
-  const root = document.documentElement;
-  const apply = () => {
-    const dark = root.classList.toggle("dark");
-    localStorage.setItem("theme", dark ? "dark" : "light");
-  };
-  if (!document.startViewTransition || matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    apply();
-    return;
-  }
-  const { clientX: x, clientY: y } = event;
-  const radius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
-  document.startViewTransition(apply).ready.then(() => {
-    root.animate(
-      { clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${radius}px at ${x}px ${y}px)`] },
-      { duration: 550, easing: "ease-in-out", pseudoElement: "::view-transition-new(root)" },
-    );
-  });
-}
 
 export default function Nav() {
   const [active, setActive] = useState(null);
@@ -78,6 +60,14 @@ export default function Nav() {
             <span className="relative">{label}</span>
           </a>
         ))}
+        <button
+          onClick={openPalette}
+          aria-label="Search and quick actions (Ctrl+K)"
+          title="Search and quick actions (Ctrl+K)"
+          className="hidden size-9 sm:flex items-center justify-center rounded-full transition-colors hover:bg-accent/15 hover:text-accent"
+        >
+          <LuSearch />
+        </button>
         <button
           onClick={toggleTheme}
           aria-label="Switch between light and dark theme"

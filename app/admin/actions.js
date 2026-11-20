@@ -5,9 +5,11 @@ import { updateTag } from "next/cache";
 import { endSession, isAdmin, passwordMatches, startSession } from "@/lib/auth";
 import { RANGES } from "@/lib/analytics";
 import { defaultContent, HEADLINE_COLORS } from "@/lib/content";
+import { emailEnabled } from "@/lib/email";
 import { ICONS } from "@/lib/icons";
 import { tryLogin } from "@/lib/loginLock";
 import { buildIndex, contentToMarkdown } from "@/lib/rag/build";
+import { sendWeeklyReport } from "@/lib/report";
 import { clearChatGaps, CONTENT_TAG, getAnalytics, getKnowledge, readKey, writeKey } from "@/lib/store";
 
 const MAX_PHOTO_CHARS = 1_400_000;
@@ -58,6 +60,7 @@ function cleanContent(c) {
       handle: text(s.handle, 80),
     })).filter((s) => s.label && (s.href || s.handle)),
     resumeUrl: safePath(c.resumeUrl),
+    bookingUrl: safeUrl(c.bookingUrl),
     projects: list(c.projects).map((p) => ({
       name: text(p.name, 80),
       tag: text(p.tag, 40),
@@ -173,6 +176,14 @@ export async function clearGaps() {
   return guarded(async () => {
     await clearChatGaps();
     return { ok: "Cleared." };
+  });
+}
+
+export async function sendReportNow() {
+  return guarded(async () => {
+    if (!emailEnabled()) return { error: "RESEND_API_KEY is not set." };
+    const sent = await sendWeeklyReport();
+    return sent ? { ok: "Weekly report sent. Check your inbox." } : { error: "Resend refused the email. Check CONTACT_TO and the server log." };
   });
 }
 
