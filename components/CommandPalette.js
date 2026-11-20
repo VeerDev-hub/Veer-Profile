@@ -226,8 +226,8 @@ export default function CommandPalette(props) {
             transition={{ type: "spring", stiffness: 420, damping: 32 }}
             onKeyDown={onKeyDown}
           >
-            <div className="flex items-center gap-3 border-b border-line px-4">
-              <LuSearch aria-hidden className="shrink-0 text-muted" />
+            <div className="group flex items-center gap-3 border-b border-line px-4 transition-colors focus-within:border-accent/60">
+              <LuSearch aria-hidden className="shrink-0 text-muted transition-colors group-focus-within:text-accent" />
               <input
                 autoFocus
                 value={query}
