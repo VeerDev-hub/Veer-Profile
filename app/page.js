@@ -56,7 +56,7 @@ export default async function Home() {
         bookingUrl={content.bookingUrl}
         socials={content.socials}
       />
-      <ChatWidget suggestions={content.suggestions} photo={content.photo} name={content.firstName.split(" ")[0]} />
+      <ChatWidget suggestions={content.suggestions} photo={content.photo} name={content.firstName.split(" ")[0]} resumeUrl={content.resumeUrl} />
     </SmoothScroll>
   );
 }

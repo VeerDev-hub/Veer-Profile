@@ -3,11 +3,37 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion } from "motion/react";
-import { LuArrowLeft, LuBriefcase, LuSend, LuX } from "react-icons/lu";
+import { LuArrowLeft, LuBriefcase, LuDownload, LuFileText, LuSend, LuX } from "react-icons/lu";
 import { track } from "@/lib/track";
 
 const MAX_CHARS = 2000;
 const MAX_JOB_CHARS = 6000;
+
+// Any mention of the resume gets a download card under the reply. A plain request for it
+// ("can I see your CV?", "resume pls") is answered straight away without asking the model.
+const MENTIONS_RESUME = /\b(r[eé]sum[eé]s?|cvs?|curriculum vitae)(?![a-z])/i;
+const ASKS_FOR_RESUME =
+  /\b(send|share|download|give|get|see|view|show|open|have|need|want|link|pdf|copy|where|can i|could i|may i)\b/i;
+const isResumeRequest = (text) =>
+  MENTIONS_RESUME.test(text) && (ASKS_FOR_RESUME.test(text) || text.trim().split(/\s+/).length <= 3);
+
+function ResumeCard({ url, name }) {
+  return (
+    <a
+      href={url}
+      download={`${name}-Resume.pdf`}
+      data-track="Resume"
+      className="mt-2 flex items-center gap-3 rounded-xl border border-line bg-surface px-3 py-2.5 transition-colors hover:border-accent hover:text-accent"
+    >
+      <LuFileText aria-hidden className="shrink-0 text-lg text-accent" />
+      <span className="min-w-0 flex-1">
+        <span className="block text-sm font-medium">{name}&apos;s resume</span>
+        <span className="block text-[11px] text-muted">PDF</span>
+      </span>
+      <LuDownload aria-label="Download" className="shrink-0" />
+    </a>
+  );
+}
 
 function Typing() {
   return (
@@ -84,7 +110,7 @@ function FitForm({ name, busy, onSubmit, onBack }) {
   );
 }
 
-export default function ChatWidget({ suggestions, photo, name }) {
+export default function ChatWidget({ suggestions, photo, name, resumeUrl }) {
   const [open, setOpen] = useState(false);
   const [fitMode, setFitMode] = useState(false);
   const [messages, setMessages] = useState([]);
@@ -100,14 +126,20 @@ export default function ChatWidget({ suggestions, photo, name }) {
       ? { role: "user", content: `Job description I shared:\n${question}`, label: "Checking fit for this role", preview: question }
       : { role: "user", content: question };
     const history = [...messages, asked];
+    const resume = Boolean(resumeUrl) && !fit && MENTIONS_RESUME.test(question);
     let sources = "";
     const update = (content) => {
-      setMessages([...history, { role: "model", content, sources }]);
+      setMessages([...history, { role: "model", content, sources, resume }]);
       requestAnimationFrame(() => logRef.current?.scrollTo({ top: logRef.current.scrollHeight }));
     };
     setFitMode(false);
-    update("");
     setInput("");
+    if (resume && isResumeRequest(question)) {
+      track("Chat resume");
+      update(`Here's ${name}'s resume. Tap below to download it.`);
+      return;
+    }
+    update("");
     setBusy(true);
     track(fit ? "Chat fit check" : "Chat message");
 
@@ -205,6 +237,14 @@ export default function ChatWidget({ suggestions, photo, name }) {
                         >
                           <LuBriefcase aria-hidden /> Hiring? Check {name}&apos;s fit for a role
                         </button>
+                        {resumeUrl && (
+                          <button
+                            onClick={() => send("Can I get the resume?")}
+                            className="flex items-center gap-1.5 rounded-full border border-line px-3 py-1.5 text-left text-xs transition-colors hover:border-accent hover:text-accent"
+                          >
+                            <LuDownload aria-hidden /> Download resume
+                          </button>
+                        )}
                         {suggestions.map((s) => (
                           <button
                             key={s}
@@ -236,6 +276,7 @@ export default function ChatWidget({ suggestions, photo, name }) {
                         ) : (
                           m.content || <Typing />
                         )}
+                        {m.resume && m.content && <ResumeCard url={resumeUrl} name={name} />}
                         {m.sources && !busy && <p className="mt-1.5 text-[11px] text-muted">From: {m.sources}</p>}
                       </div>
                     </div>
