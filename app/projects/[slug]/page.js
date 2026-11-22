@@ -1,8 +1,8 @@
 import { Suspense } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { LuArrowLeft, LuArrowUpRight } from "react-icons/lu";
+import ProjectTrailer from "@/components/ProjectTrailer";
 import { projectSlug } from "@/lib/content";
 import { getContent } from "@/lib/store";
 
@@ -53,16 +53,9 @@ async function Project({ params }) {
           View project <LuArrowUpRight aria-hidden />
         </a>
       )}
-      {project.image && (
-        <Image
-          src={project.image}
-          alt={`Screenshot of ${project.name}`}
-          width={1280}
-          height={800}
-          sizes="(min-width: 960px) 896px, 100vw"
-          className="mt-10 rounded-2xl border border-line"
-        />
-      )}
+      <div className="mt-10">
+        <ProjectTrailer name={project.name} image={project.image} video={project.video} />
+      </div>
       <div className="mt-10">
         {project.overview && <Block title="Overview"><p>{project.overview}</p></Block>}
         {project.built && (

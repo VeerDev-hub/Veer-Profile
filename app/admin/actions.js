@@ -68,6 +68,7 @@ function cleanContent(c) {
       stack: text(p.stack, 200),
       href: safeUrl(p.href),
       image: safePath(p.image),
+      video: safeUrl(p.video),
       overview: text(p.overview, 800),
       built: text(p.built, 2000),
       outcome: text(p.outcome, 800),

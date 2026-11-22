@@ -44,3 +44,5 @@ next-env.d.ts
 # admin panel data
 /data
 vercel.json
+# Raw trailer videos and READMEs (hosted on Google Drive)
+/Trailers/

@@ -244,7 +244,7 @@ export default function AdminPanel({ initialContent, initialKnowledge, initialGa
         <ListEditor
           items={content.projects}
           onChange={set("projects")}
-          blank={{ name: "", tag: "", role: "", stack: "", href: "", image: "", overview: "", built: "", outcome: "" }}
+          blank={{ name: "", tag: "", role: "", stack: "", href: "", image: "", video: "", overview: "", built: "", outcome: "" }}
           addLabel="Add project"
           render={(p, update) => (
             <>
@@ -255,7 +255,8 @@ export default function AdminPanel({ initialContent, initialKnowledge, initialGa
               <Field label="One-line description" value={p.role} onChange={(role) => update({ ...p, role })} />
               <Field label="Tech stack" value={p.stack} onChange={(stack) => update({ ...p, stack })} />
               <Field label="Link (leave empty for none)" value={p.href} placeholder="https://" onChange={(href) => update({ ...p, href })} />
-              <Field label="Screenshot path or URL" value={p.image} onChange={(image) => update({ ...p, image })} />
+              <Field label="Thumbnail path or URL" value={p.image} onChange={(image) => update({ ...p, image })} />
+              <Field label="Trailer (Google Drive share link, leave empty for none)" value={p.video} placeholder="https://drive.google.com/file/d/…" onChange={(video) => update({ ...p, video })} />
               <Field label="Overview" multiline value={p.overview} onChange={(overview) => update({ ...p, overview })} />
               <Field label="What I built (one point per line)" multiline value={p.built} onChange={(built) => update({ ...p, built })} />
               <Field label="Outcome" multiline value={p.outcome} onChange={(outcome) => update({ ...p, outcome })} />
