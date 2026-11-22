@@ -1,0 +1,132 @@
+<!doctype html>
+<!--
+  Source for public/resume.pdf. Edit this file, then rebuild the PDF with:
+    node resume/build.mjs
+  (prints with headless Chrome; US Letter, one page)
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Veer Pratap Singh - Resume</title>
+<meta name="author" content="Veer Pratap Singh">
+<style>
+  @page { size: 8.5in 11in; margin: 0.36in 0.6in 0.3in; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-print-color-adjust: exact; }
+  body { font-family: "Times New Roman", "Nimbus Roman", Times, serif; font-size: 9.96pt; line-height: 1.145; color: #000; }
+  a { color: inherit; text-decoration: none; }
+  u, .ul { text-decoration: underline; }
+
+  header { text-align: center; }
+  h1 { font-size: 17.2pt; font-weight: bold; line-height: 1.1; }
+  .contact { margin-top: 1pt; }
+
+  h2 { font-size: 11.96pt; font-weight: bold; text-transform: uppercase; border-bottom: 0.4pt solid #000; line-height: 1.05; margin: 5pt 0 2pt; }
+
+  .row { display: flex; justify-content: space-between; gap: 12pt; }
+  .row > :last-child { white-space: nowrap; }
+  .entry + .entry { margin-top: 2pt; }
+  .it { font-style: italic; }
+  b { font-weight: bold; }
+
+  ul { list-style: none; margin-top: 0.5pt; }
+  li { position: relative; padding-left: 13pt; text-align: justify; margin-bottom: 0.4pt; }
+  li::before { content: "\2022"; position: absolute; left: 4.5pt; }
+  .skills p { margin-bottom: 0; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Veer Pratap Singh</h1>
+  <p class="contact">
+    +91-9664337961 |
+    <a href="mailto:veerprataps.ranawat@gmail.com">veerprataps.ranawat@gmail.com</a> |
+    <a href="https://www.linkedin.com/in/veer-pratap-singh-99a368310">LinkedIn</a> |
+    <a href="https://github.com/VeerDev-hub">github</a>
+  </p>
+</header>
+
+<h2>Summary</h2>
+<p style="text-align: justify">Full-stack developer who builds AI into real products, from React interfaces and Node.js APIs to machine learning and generative AI features people can trust. Enjoys owning a feature end to end, questioning data quality, and explaining technical decisions clearly to any audience. Always learning, currently exploring agentic AI.</p>
+
+<h2>Education</h2>
+<div class="entry">
+  <div class="row"><b>Vellore Institute of Technology, Amaravati , Andhra Pradesh</b><span>2023 – 2027</span></div>
+  <div class="it">Bachelor of Technology in Computer Science Engineering</div>
+</div>
+<div class="entry">
+  <div class="row"><b>Nalanda Academy, Kota, Rajasthan</b><span>2021 – 2022</span></div>
+  <div class="it">Class XII: 84.8%</div>
+</div>
+<div class="entry">
+  <div class="row"><b>Nalanda Academy, Kota, Rajasthan</b><span>2019 – 2020</span></div>
+  <div class="it">Class X: 86.8%</div>
+</div>
+
+<h2>Technical Skills</h2>
+<div class="skills">
+  <p><b>Programming Languages:</b> Python, SQL, Java, JavaScript, Bash</p>
+  <p><b>Generative &amp; Agentic AI:</b> Generative AI APIs, Prompt Engineering, Agentic AI, Multi-Agent Systems, OCR</p>
+  <p><b>Machine Learning &amp; NLP:</b> PyTorch, Scikit-learn, Deep learning, Transfer Learning, Model Evaluation, NLP</p>
+  <p><b>Data Analysis &amp; Visualization:</b> NumPy, Pandas, Matplotlib, Seaborn, EDA, Data Preprocessing, Streamlit</p>
+  <p><b>Cloud &amp; Tools:</b> AWS, Git, GitHub Actions (CI/CD), Docker, Linux, Flask, REST APIs</p>
+  <p><b>Databases:</b> MySQL, PostgreSQL, MongoDB</p>
+</div>
+
+<h2>Experience</h2>
+<div class="entry">
+  <div class="row"><b>Software Developer Intern</b><span>Jun 2025 – Dec 2025</span></div>
+  <div class="row it"><span>Cipherium Private Limited</span><span>Remote</span></div>
+  <ul>
+    <li>Developed and deployed web applications in Python and JavaScript from design through production, using systematic debugging to diagnose and resolve production issues.</li>
+    <li>Designed CI/CD pipelines for automated backend deployment on Linux servers, cutting deployment time by 30%.</li>
+    <li>Overhauled documentation and code structure, cutting new-developer onboarding time by 25%.</li>
+  </ul>
+</div>
+
+<h2>Projects</h2>
+<div class="entry">
+  <div class="row"><span><b>Klaro</b> | Generative AI API, React, Node.js, Express, Multer</span><a href="https://klaro-74eckmgt8-nextn-exus.vercel.app/">Live Demo</a></div>
+  <ul>
+    <li>Built a generative AI document summarizer: uploaded PDFs and scanned images are routed by file type to pdf-parse or Tesseract.js OCR for text extraction, then passed to a Generative AI API.</li>
+    <li>Engineered prompts around the user’s chosen summary length to return structured, actionable summaries through a React drag-and-drop frontend and a Node.js/Express backend.</li>
+  </ul>
+</div>
+<div class="entry">
+  <div class="row"><span><b>NEXUS-SOC: Multi-Agent Security Operations Center</b> | Python, Django, Next.js, LLMs, Docker</span><span>Capstone Project</span></div>
+  <ul>
+    <li>Built a SOC in which 7 cooperating AI agents (Supervisor, Triage, Threat Intel, Asset &amp; Identity, Investigation, Response, Reporting) investigate each alert end to end, while analysts approve risky actions in 5 role-based consoles.</li>
+    <li>Implemented live detection with 38 signature and 3 UEBA rules mapped to MITRE ATT&amp;CK, prompt-injection guardrails, a full audit trail, and failover from cloud LLMs to a local Ollama model to an offline engine.</li>
+  </ul>
+</div>
+<div class="entry">
+  <div class="row"><span><b>PulmoSight</b> | Python, PyTorch, Transfer Learning, CNN, Flask, Grad-CAM</span><a href="https://github.com/VeerDev-hub/PulmoSight">GitHub</a></div>
+  <ul>
+    <li>Built an end-to-end tuberculosis screening pipeline: prepared 16,800+ Indian chest X-rays</li>
+    <li>Validated on held-out data and added Grad-CAM heatmaps with a decision threshold in a Flask app so every prediction is explainable, supporting transparent and responsible AI.</li>
+  </ul>
+</div>
+<div class="entry">
+  <div class="row"><span><b>Analytica Studio 2.0</b> | React, FastAPI, Celery, PostgreSQL, DuckDB, Scikit-learn, AWS, Terraform</span><a href="https://github.com/VeerDev-hub/Analytica">GitHub</a></div>
+  <ul>
+    <li>Rebuilt a single-user Streamlit EDA tool as a multi-user ML data-preparation platform (FastAPI, Celery, PostgreSQL, S3) on AWS ECS Fargate with Terraform, with a Gemini assistant grounded in sandboxed SQL.</li>
+    <li>Designed a versioned pipeline engine with 30+ cleaning, encoding, scaling and resampling steps fitted on the training split only to prevent leakage, exporting a script that reproduces the data exactly.</li>
+  </ul>
+</div>
+
+<h2>Certifications &amp; Languages</h2>
+<p><b>Certifications:</b>
+  <a class="ul" href="https://drive.google.com/file/d/1WRhoxla_-ELXeua0oC68sZi2E8WUZVij/view?usp=drive_link">AWS Cloud Architecture</a> |
+  <a class="ul" href="https://drive.google.com/file/d/1WiQuP4NPd2Htm5LR0z8rKtWfY7TjaiKl/view?usp=sharing">AWS Cloud Foundations</a> |
+  <a class="ul" href="https://drive.google.com/file/d/1QWqxLu7EcB2vUROVl42kPGWwfI9aUKIZ/view?usp=sharing">Full Stack Dev</a></p>
+<p><b>Languages:</b> Hindi (Native), English (Professional), German (Beginner)</p>
+
+<h2>Leadership &amp; Achievements</h2>
+<ul>
+  <li><b>Hackathon:</b> First Runner-up, National-Level Hackathon at Woxsen University.</li>
+  <li><b>Leadership:</b> President of Team Next Nexus (organized 50+ technical events); Core Team Member of VLaunchpad and VTOPIA.</li>
+  <li><b>Workshops:</b> Conducted technical workshops on Firebase and Introduction to IoT for 100+ students.</li>
+  <li><b>Organizer:</b> Key organizer for TEDxVITAP; active member of the University Social Media Committee.</li>
+</ul>
+</body>
+</html>

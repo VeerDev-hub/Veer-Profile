@@ -1,5 +1,6 @@
 import Certifications from "@/components/Certifications";
 import ChatWidget from "@/components/ChatWidget";
+import ResumeViewer from "@/components/ResumeViewer";
 import CommandPalette from "@/components/CommandPalette";
 import Contact from "@/components/Contact";
 import Cursor from "@/components/Cursor";
@@ -57,6 +58,7 @@ export default async function Home() {
         socials={content.socials}
       />
       <ChatWidget suggestions={content.suggestions} photo={content.photo} name={content.firstName.split(" ")[0]} resumeUrl={content.resumeUrl} />
+      {content.resumeUrl && <ResumeViewer url={content.resumeUrl} name={`${content.firstName} ${content.lastName}`} />}
     </SmoothScroll>
   );
 }

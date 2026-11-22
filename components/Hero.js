@@ -2,6 +2,7 @@ import Image from "next/image";
 import { LuCalendarClock } from "react-icons/lu";
 import HeroHeadline from "@/components/HeroHeadline";
 import ParticleField from "@/components/ParticleField";
+import ResumeButton from "@/components/ResumeButton";
 
 export default function Hero({ content }) {
   const greeting = content.firstName.split(" ")[0];
@@ -54,15 +55,12 @@ export default function Hero({ content }) {
           </a>
         )}
         {content.resumeUrl && (
-          <a
-            href={content.resumeUrl}
-            target="_blank"
-            rel="noreferrer"
-            data-track="Resume"
+          <ResumeButton
+            url={content.resumeUrl}
             className="rounded-full border border-line bg-surface/70 px-5 py-2.5 font-medium backdrop-blur-sm transition-colors hover:border-accent hover:text-accent"
           >
             Resume
-          </a>
+          </ResumeButton>
         )}
         <p className="font-mono text-sm text-muted">{"// "}{content.noteTwo}</p>
       </div>

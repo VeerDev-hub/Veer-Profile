@@ -4,12 +4,13 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion } from "motion/react";
 import { LuArrowLeft, LuBriefcase, LuDownload, LuFileText, LuSend, LuX } from "react-icons/lu";
+import ResumeButton from "@/components/ResumeButton";
 import { track } from "@/lib/track";
 
 const MAX_CHARS = 2000;
 const MAX_JOB_CHARS = 6000;
 
-// Any mention of the resume gets a download card under the reply. A plain request for it
+// Any mention of the resume gets a resume card under the reply. A plain request for it
 // ("can I see your CV?", "resume pls") is answered straight away without asking the model.
 const MENTIONS_RESUME = /\b(r[eé]sum[eé]s?|cvs?|curriculum vitae)(?![a-z])/i;
 const ASKS_FOR_RESUME =
@@ -17,21 +18,28 @@ const ASKS_FOR_RESUME =
 const isResumeRequest = (text) =>
   MENTIONS_RESUME.test(text) && (ASKS_FOR_RESUME.test(text) || text.trim().split(/\s+/).length <= 3);
 
+// Opens the resume preview first, so nobody has to download a file blind. Download stays one tap away.
 function ResumeCard({ url, name }) {
   return (
-    <a
-      href={url}
-      download={`${name}-Resume.pdf`}
-      data-track="Resume"
-      className="mt-2 flex items-center gap-3 rounded-xl border border-line bg-surface px-3 py-2.5 transition-colors hover:border-accent hover:text-accent"
-    >
-      <LuFileText aria-hidden className="shrink-0 text-lg text-accent" />
-      <span className="min-w-0 flex-1">
-        <span className="block text-sm font-medium">{name}&apos;s resume</span>
-        <span className="block text-[11px] text-muted">PDF</span>
-      </span>
-      <LuDownload aria-label="Download" className="shrink-0" />
-    </a>
+    <div className="mt-2 flex items-center rounded-xl border border-line bg-surface transition-colors hover:border-accent">
+      <ResumeButton url={url} className="flex min-w-0 flex-1 items-center gap-3 px-3 py-2.5 hover:text-accent">
+        <LuFileText aria-hidden className="shrink-0 text-lg text-accent" />
+        <span className="min-w-0 flex-1">
+          <span className="block text-sm font-medium">{name}&apos;s resume</span>
+          <span className="block text-[11px] text-muted">Tap to view · PDF</span>
+        </span>
+      </ResumeButton>
+      <a
+        href={url}
+        download={`${name}-Resume.pdf`}
+        data-track="Resume download"
+        aria-label="Download resume"
+        title="Download PDF"
+        className="mr-1.5 flex size-9 shrink-0 items-center justify-center rounded-lg text-muted transition-colors hover:bg-accent/15 hover:text-accent"
+      >
+        <LuDownload />
+      </a>
+    </div>
   );
 }
 
@@ -136,7 +144,7 @@ export default function ChatWidget({ suggestions, photo, name, resumeUrl }) {
     setInput("");
     if (resume && isResumeRequest(question)) {
       track("Chat resume");
-      update(`Here's ${name}'s resume. Tap below to download it.`);
+      update(`Here's ${name}'s resume. Tap below to view it, or use the download button to save the PDF.`);
       return;
     }
     update("");

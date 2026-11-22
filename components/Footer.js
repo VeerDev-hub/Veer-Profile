@@ -1,5 +1,6 @@
 import { LuArrowUp } from "react-icons/lu";
 import { Reveal } from "@/components/Motion";
+import ResumeButton from "@/components/ResumeButton";
 import SocialLinks from "@/components/SocialLinks";
 
 const EXPLORE = [
@@ -43,16 +44,10 @@ export default function Footer({ content }) {
               ))}
               {content.resumeUrl && (
                 <li>
-                  <a
-                    href={content.resumeUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    data-track="Resume"
-                    className="group inline-flex items-center py-1 transition-colors hover:text-accent"
-                  >
+                  <ResumeButton url={content.resumeUrl} className="group inline-flex items-center py-1 transition-colors hover:text-accent">
                     <span className="h-px w-0 bg-accent transition-all duration-300 group-hover:mr-2 group-hover:w-4" />
                     Resume
-                  </a>
+                  </ResumeButton>
                 </li>
               )}
             </ul>

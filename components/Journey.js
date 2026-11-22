@@ -1,5 +1,6 @@
-import { LuDownload } from "react-icons/lu";
+import { LuFileText } from "react-icons/lu";
 import { Reveal } from "@/components/Motion";
+import ResumeButton from "@/components/ResumeButton";
 
 export default function Journey({ experience, achievements, resumeUrl }) {
   return (
@@ -7,15 +8,12 @@ export default function Journey({ experience, achievements, resumeUrl }) {
       <div className="mb-10 flex flex-wrap items-center justify-between gap-4">
         <h2 className="font-mono text-sm text-muted">Experience</h2>
         {resumeUrl && (
-          <a
-            href={resumeUrl}
-            target="_blank"
-            rel="noreferrer"
-            data-track="Resume"
+          <ResumeButton
+            url={resumeUrl}
             className="flex items-center gap-2 rounded-full border border-line px-4 py-2 text-sm transition-colors hover:border-accent hover:text-accent"
           >
-            <LuDownload aria-hidden /> Download resume
-          </a>
+            <LuFileText aria-hidden /> View resume
+          </ResumeButton>
         )}
       </div>
       <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">

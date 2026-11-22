@@ -19,6 +19,7 @@ import {
 } from "react-icons/lu";
 import { scrollToId } from "@/components/Motion";
 import { projectSlug } from "@/lib/content";
+import { openResume } from "@/lib/resume";
 import { toggleTheme } from "@/lib/theme";
 import { track } from "@/lib/track";
 
@@ -63,7 +64,7 @@ function buildItems({ projects, email, resumeUrl, bookingUrl, socials }, go) {
       label: "Open resume",
       icon: LuFileText,
       keywords: "cv pdf download",
-      run: () => window.open(resumeUrl, "_blank", "noopener"),
+      run: openResume,
     },
     bookingUrl && {
       group: "Actions",
