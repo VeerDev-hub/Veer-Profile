@@ -51,6 +51,8 @@ export default function ProjectTrailer({ name, image, video }) {
           poster={playing ? image || undefined : undefined}
           playsInline
           controls={playing}
+          controlsList="nodownload"
+          onContextMenu={(e) => e.preventDefault()}
           aria-label={`${name} trailer`}
           onLoadedMetadata={(e) => setSquare(e.currentTarget.videoWidth <= e.currentTarget.videoHeight)}
           onError={() => setUseEmbed(true)}
