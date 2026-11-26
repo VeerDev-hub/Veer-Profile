@@ -55,7 +55,7 @@ export default function ProjectTrailer({ name, image, video }) {
           onContextMenu={(e) => e.preventDefault()}
           aria-label={`${name} trailer`}
           onLoadedMetadata={(e) => setSquare(e.currentTarget.videoWidth <= e.currentTarget.videoHeight)}
-          onError={() => setUseEmbed(true)}
+          onError={() => sources.embed && setUseEmbed(true)}
           className="absolute inset-0 size-full object-contain"
         />
       )}
